@@ -31,3 +31,5 @@ function App() {
 }
 
 export default App
+//https://neygxadcgdpkbeaezfjc.supabase.co
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5leWd4YWRjZ2Rwa2JlYWV6ZmpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY2MjUxODMsImV4cCI6MjA2MjIwMTE4M30.IpS34HF5ouG-5qPOavCyqCJdOV-sbhkLfmV04z36Fnc
