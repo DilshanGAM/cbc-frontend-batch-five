@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Loading from "../../components/loading";
 import Modal from "react-modal";
+import toast from "react-hot-toast";
 
 export default function AdminOrdersPage() {
 	const [orders, setOrders] = useState([]);
@@ -47,7 +48,7 @@ export default function AdminOrdersPage() {
 						isOpen={isModalOpen}
 						onRequestClose={() => setIsModalOpen(false)}
 						className="bg-white rounded-lg shadow-lg max-w-3xl mx-auto my-10 p-6 outline-none"
-						overlayClassName="fixed inset-0 bg-[#00000040]  flex justify-center items-center"
+						overlayClassName="fixed inset-0 bg-[#00000040] flex justify-center items-center"
 					>
 						{activeOrder && (
 							<div className="space-y-4">
@@ -87,6 +88,44 @@ export default function AdminOrdersPage() {
 											>
 												{activeOrder.status.toUpperCase()}
 											</span>
+											<select
+												onChange={async (e) => {
+													const updatedValue = e.target.value;
+													try {
+														const token = localStorage.getItem("token");
+														await axios.put(
+															import.meta.env.VITE_BACKEND_URL +
+																"/api/orders/" +
+																activeOrder.orderId +
+																"/" +
+																updatedValue,
+															{},
+															{
+																headers: {
+																	Authorization: "Bearer " + token,
+																},
+															}
+														);
+														
+														setIsLoading(true);
+														const updatedOrder = {...activeOrder};
+														updatedOrder.status = updatedValue;
+														setActiveOrder(updatedOrder);
+
+													} catch (e) {
+														toast.error("Error updating order status")
+														console.log(e)
+													}
+												}}
+											>
+												<option selected disabled>
+													Change status
+												</option>
+												<option value="pending">Pending</option>
+												<option value="completed">Completed</option>
+												<option value="cancelled">Cancelled</option>
+												<option value="returned">Returned</option>
+											</select>
 										</p>
 										<p>
 											<span className="font-semibold">Date:</span>{" "}
@@ -146,10 +185,12 @@ export default function AdminOrdersPage() {
 												</td>
 												<td className="py-2 px-2">{item.quantity}</td>
 												<td className="py-2 px-2">
-													{(item.productInfo.price * item.quantity).toLocaleString(
-														"en-LK",
-														{ style: "currency", currency: "LKR" }
-													)}
+													{(
+														item.productInfo.price * item.quantity
+													).toLocaleString("en-LK", {
+														style: "currency",
+														currency: "LKR",
+													})}
 												</td>
 											</tr>
 										))}
@@ -162,7 +203,7 @@ export default function AdminOrdersPage() {
 									>
 										Close
 									</button>
-                                    <button
+									<button
 										onClick={() => window.print()}
 										className="mt-4 px-4 py-2 bg-[var(--color-accent)] text-white rounded hover:bg-[var(--color-secondary)] transition"
 									>

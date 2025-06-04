@@ -7,8 +7,8 @@ export default function CartPage(){
     const [cart,setCart] = useState(getCart())
 
     return(
-        <div className="w-full h-full flex flex-col items-center pt-4 relative ">
-            <div className="w-[400px] h-[80px] shadow-2xl absolute top-1 right-1 flex flex-col justify-center items-center">
+        <div className="w-full max-w-full  h-full flex flex-col items-center pt-4 relative ">
+            <div className="z-50 hidden  w-[400px] h-[80px] shadow-2xl absolute bottom-1 md:top-1 right-1 md:flex flex-col justify-center items-center">
                 <p className="text-2xl text-secondary font-bold">Total: 
                     <span className="text-accent font-bold mx-2">
                         {getTotal().toFixed(2)}
@@ -26,9 +26,9 @@ export default function CartPage(){
                 cart.map(
                     (item)=>{
                         return(
-                            <div key={item.productId} className="w-[600px] my-4 h-[100px] rounded-tl-3xl rounded-bl-3xl bg-primary shadow-2xl flex flex-row relative justify-center items-center">
+                            <div key={item.productId} className="w-[70%] md:w-[600px] my-4 md:h-[100px] rounded-tl-3xl rounded-bl-3xl bg-primary shadow-2xl flex flex-col md:flex-row relative justify-center items-center p-2 md:pt-0">
                                 <img src={item.image} className="w-[100px] h-[100px] object-cover rounded-3xl"/>
-                                <div className="w-[250px] h-full flex flex-col justify-center items-start pl-4">
+                                <div className="w-[250px] h-full flex flex-col justify-center  items-center md:items-start pl-4">
                                     <h1 className="text-xl text-secondary font-semibold">{item.name}</h1>
                                     <h1 className="text-md text-gray-600 font-semibold">{item.productId}</h1>
                                     {
@@ -53,7 +53,7 @@ export default function CartPage(){
                                     }}><BiPlus/></button>                                
                                 </div>
                                 {/* total */}
-                                <div className="w-[200px] h-full flex flex-col justify-center items-end pr-4">
+                                <div className="w-[200px] h-full flex flex-col justify-center items-center md:items-end pr-4">
                                     <h1 className="text-2xl text-secondary font-semibold">Rs. {(item.price*item.qty).toFixed(2)}</h1>
                                 </div>
                                 <button className="absolute text-red-600 cursor-pointer hover:bg-red-600 hover:text-white rounded-full p-2 right-[-35px] " onClick={
@@ -69,6 +69,20 @@ export default function CartPage(){
                     }
                 )
             }
+            <div className="z-50 md:hidden  flex w-full h-[100px] shadow-2xl    flex-col justify-center items-center">
+                <p className="text-2xl text-secondary font-bold">Total: 
+                    <span className="text-accent font-bold mx-2">
+                        {getTotal().toFixed(2)}
+                    </span>
+                </p>
+                <Link to="/checkout" state={
+                    {
+                        cart: cart
+                    }
+                } className="text-white bg-accent px-4 py-2 rounded-lg font-bold hover:bg-secondary transition-all duration-300">
+                    Checkout
+                </Link>
+            </div>
         </div>
     )
 }
