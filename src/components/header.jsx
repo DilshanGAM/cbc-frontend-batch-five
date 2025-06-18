@@ -25,7 +25,7 @@ export default function Header(){
                 <Link to="/contact" className=" text-[20px] font-bold mx-2">Contact</Link>
                 <Link to="/search" className=" text-[20px] font-bold mx-2">Search</Link>
             </div>
-            <div className="w-[80px] hidden md:flex justify-center items-center">
+            <div className="w-[160px] hidden md:flex justify-center items-center">
                 {
                     token==null?
                     <Link to="/login" className="text-[20px] font-bold mx-2">Login</Link>
